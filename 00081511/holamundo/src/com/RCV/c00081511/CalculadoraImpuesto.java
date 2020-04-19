@@ -21,18 +21,23 @@ public class CalculadoraImpuesto {
 
     public double calcularPago(Empleado empleado){
         if(empleado instanceof ServicioProfecional){
-            totalRenta = 0.1;
-        }else{
-            totalRenta = 0;
-            totalAfp = 0;
-            totalIsss = 0;
-        }
+            totalRenta = empleado.getSalario()*0.1;
 
-        return empleado.salario - empleado.salario * totalIsss - empleado.salario * totalAfp - empleado.salario * totalRenta;
+        }else{
+            totalAfp = empleado.getSalario()*0.0625;
+            totalIsss = empleado.getSalario()*0.03;
+            double variable = empleado.getSalario() -  totalIsss -  totalAfp;
+            totalRenta = variable <= 472 ? 0:
+                    variable <= 895.24 ? (0.1*(variable - 472) + 17.67):
+                            variable <= 2038.10 ? (0.2*(variable - 895.24) + 60) :
+                                    (0.3*(variable - 2038.10) + 288.57);
+            totalRenta = totalRenta < 0 ? totalRenta * -1 : totalRenta;
+        }
+        return empleado.getSalario() -  totalIsss -  totalAfp - totalRenta;
     }
 
     public String mostrarTotales(){
 
-        return "";
+        return "AFP: $" + totalAfp + " ISSS: $" + totalIsss + " Renta: $" + totalRenta;
     }
 }
