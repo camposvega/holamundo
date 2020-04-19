@@ -19,9 +19,16 @@ public class CalculadoraImpuesto {
         return ci;
     }
 
-    public double calcularEmpleado(Empleado empleado){
+    public double calcularPago(Empleado empleado){
+        if(empleado instanceof ServicioProfecional){
+            totalRenta = 0.1;
+        }else{
+            totalRenta = 0;
+            totalAfp = 0;
+            totalIsss = 0;
+        }
 
-        return 1.1;
+        return empleado.salario - empleado.salario * totalIsss - empleado.salario * totalAfp - empleado.salario * totalRenta;
     }
 
     public String mostrarTotales(){
